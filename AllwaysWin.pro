@@ -59,19 +59,13 @@ for(dir, ODB_FILES_PRIVATE) {
     }
 }
 
-defineReplace(generateFileNames) {
-    source = $$1
-    source_first = $$replace(source, ".hxx", "")
-    return($${source_first}-odb.cxx)
-}
-
 defineReplace(generateFileNamesClean) {
     return($${1}/$${2}-odb.hxx $${1}/$${2}-odb.cxx $${1}/$${2}-odb.ixx $${1}/$${2}.sql)
 }
 
 odb.name = odb ${QMAKE_FILE_IN}
 odb.input = ODB_PWD_FILES
-odb.output_function = generateFileNames
+odb.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}-odb.cxx
 odb.commands = odb -x -fPIC --output-dir ${QMAKE_FILE_PATH} $$ODB_FLAGS ${QMAKE_FILE_IN}
 odb.depends = $$ODB_PWD_FILES
 odb.variable_out = SOURCES
