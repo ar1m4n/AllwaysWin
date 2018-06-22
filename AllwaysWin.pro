@@ -23,8 +23,7 @@ CONFIG += c++14
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # List of header files that should be compiled with the ODB compiler.
-ODB_FILES_PRIVATE = OdbData/Models/OdbSportIdent.h \
-    OdbData/Models/OdbSport.h
+ODB_FILES = $$files(*.hxx, true)
 
 SOURCES += main.cpp \
     MainWindow.cpp \
@@ -32,23 +31,21 @@ SOURCES += main.cpp \
     JsonItem.cpp \
     JsonModel.cpp \
     OdbData/Models/OdbSport.cpp \
-    OdbData/Models/OdbSportIdent.cpp
+    OdbData/Models/OdbBookie.cpp
 
 HEADERS += MainWindow.h \
     OdbData/OdbContext.h \
     JsonItem.h \
     JsonModel.h \
-    $$ODB_FILES_PRIVATE
+    $$ODB_FILES
 
 FORMS += MainWindow.ui
 
 # ODB compiler flags.
-DATA_DIR = $$PWD/OdbData/Models/
-ODB_FLAGS = --database sqlite --profile qt --generate-schema --generate-query --generate-session --std c++14 --at-once --input-name $${DATA_DIR}OdbDataModels
+ODB_FLAGS = --database sqlite --profile qt --generate-schema --generate-query --generate-session --std c++14
 
 # Suppress unknown pragmas GCC warnings.
 QMAKE_CXXFLAGS_WARN_ON = $$QMAKE_CXXFLAGS_WARN_ON -Wno-unknown-pragmas
-QMAKE_CXXFLAGS = $$QMAKE_CXXFLAGS -I$${DATA_DIR}
 
 # Link to the ODB runtime libraries.
 LIBS += -lodb-sqlite
@@ -60,9 +57,13 @@ ODB_FLAGS += -I$$[QT_INSTALL_HEADERS]
 
 # Newer versions of QtCreator do builds in a separate directory. As a
 # result, we need to append the source directory to ODB files.
-for(dir, ODB_FILES_PRIVATE) {
-    ODB_PWD_FILES += $$PWD/$${dir}
+for(dir, ODB_FILES) {
+    ODB_PWD_FILE = $$PWD/$${dir}
+    ODB_PWD_FILES += $$ODB_PWD_FILE
+    QMAKE_CXXFLAGS *= -I$$dirname(ODB_PWD_FILE)
 }
+
+GEN_FLAGS = $(CXX) -c $(CXXFLAGS) $(INCPATH) $$ODB_PWD_FILE_DIRS
 
 defineReplace(generateClean) {
     return($${1}-odb.hxx $${1}-odb.cxx $${1}-odb.ixx $${1}.sql)
@@ -70,10 +71,10 @@ defineReplace(generateClean) {
 
 odb.name = odb ${QMAKE_FILE_IN}
 odb.input = ODB_PWD_FILES
-odb.output = OdbDataModels-odb.cxx
-odb.commands = odb -x -fPIC $$ODB_FLAGS $$ODB_PWD_FILES
+odb.output = ${QMAKE_FILE_BASE}-odb.cxx
+odb.commands = odb -x -fPIC $$ODB_FLAGS ${QMAKE_FILE_IN}
 odb.depends = $$ODB_PWD_FILES
 odb.variable_out = SOURCES
-odb.CONFIG = combine
-odb.clean = $$generateClean(OdbDataModels)
+odb.CONFIG = target_predeps
+odb.clean = $$generateClean(${QMAKE_FILE_BASE})
 QMAKE_EXTRA_COMPILERS += odb

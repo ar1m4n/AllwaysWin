@@ -1,12 +1,22 @@
-#include "OdbSport.h"
-#include "OdbSportIdent.h"
+#include "OdbSport.hxx"
 
-unsigned long OdbSport::Id() const
+OdbSport::OdbSport(const QString &id)
+    :m_id(id)
+{
+
+}
+
+const QString &OdbSport::Id() const
 {
     return m_id;
 }
 
-const QLazySharedPointer<OdbSportIdent> &OdbSport::SportIdent() const
+const QList<QLazyWeakPointer<OdbBookie> > &OdbSport::Bookies() const
 {
-    return m_sportIdent;
+    return m_bookies;
+}
+
+const QString &OdbSport::Name() const
+{
+    return m_name;
 }
