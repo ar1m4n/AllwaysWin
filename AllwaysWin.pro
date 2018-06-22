@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,10 +25,14 @@ CONFIG += c++14
 
 SOURCES += main.cpp \
     MainWindow.cpp \
-    OdbData/OdbContext.cpp
+    OdbData/OdbContext.cpp \
+    jsonmodel.cpp \
+    jsonitem.cpp
 
 HEADERS += MainWindow.h \
     OdbData/OdbContext.h \
+    jsonmodel.h \
+    jsonitem.h
 
 FORMS += MainWindow.ui
 # List of header files that should be compiled with the ODB compiler.
