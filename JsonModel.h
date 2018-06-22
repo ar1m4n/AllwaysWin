@@ -22,7 +22,7 @@
 #ifndef JSONMODEL_H
 #define JSONMODEL_H
 
-#include "jsonitem.h"
+#include "JsonItem.h"
 #include <QAbstractItemModel>
 #include <QJsonDocument>
 

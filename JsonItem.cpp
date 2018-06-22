@@ -19,7 +19,7 @@
 **
 ****************************************************************************/
 
-#include "jsonitem.h"
+#include "JsonItem.h"
 
 JsonItem::JsonItem(JsonItem* parent)
 {

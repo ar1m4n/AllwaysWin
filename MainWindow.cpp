@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "jsonmodel.h"
+#include "JsonModel.h"
 #include "ui_MainWindow.h"
 #include <QJsonArray>
 #include <QNetworkAccessManager>

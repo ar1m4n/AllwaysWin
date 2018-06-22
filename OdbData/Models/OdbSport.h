@@ -1,17 +1,17 @@
-#ifndef ODBSPORT_HXX
-#define ODBSPORT_HXX
+#pragma once
 
 #include <QtCore/QString>
 #include <odb/core.hxx>
 #include <odb/qt/lazy-ptr.hxx>
 
+class OdbSportIdent;
+
 #pragma db object
 class OdbSport
 {
 public:
-    unsigned long Id() const {
-        return m_id;
-    }
+    unsigned long Id() const;
+    const QLazySharedPointer<OdbSportIdent> &SportIdent() const;
 
 private:
     friend class odb::access;
@@ -19,6 +19,7 @@ private:
 
     #pragma db id auto
     unsigned long m_id;
-};
 
-#endif //ODBSPORT_HXX
+    #pragma db not_null
+    QLazySharedPointer<OdbSportIdent> m_sportIdent;
+};

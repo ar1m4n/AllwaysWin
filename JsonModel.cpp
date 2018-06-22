@@ -19,12 +19,12 @@
 **
 ****************************************************************************/
 
-#include "jsonmodel.h"
+#include "JsonModel.h"
 #include "QJsonDocument"
 #include <QDebug>
 #include <QString>
 
-JsonModel::JsonModel(QObject* parent) : QAbstractItemModel(parent), JsonItem(0)
+JsonModel::JsonModel(QObject* parent) : QAbstractItemModel(parent), JsonItem(nullptr)
 {
 }
 
@@ -61,7 +61,7 @@ QVariant JsonModel::data(const QModelIndex& index, int role) const
 Qt::ItemFlags JsonModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid())
-        return 0;
+        return Qt::NoItemFlags;
 
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
@@ -84,10 +84,10 @@ QModelIndex JsonModel::index(int row, int column, const QModelIndex& parent) con
     if (!hasIndex(row, column, parent))
         return QModelIndex();
 
-    JsonItem* parentItem;
+    const JsonItem* parentItem;
 
     if (!parent.isValid())
-        parentItem = (JsonModel*)this;
+        parentItem = this;
     else
         parentItem = static_cast<JsonItem*>(parent.internalPointer());
 
@@ -114,12 +114,12 @@ QModelIndex JsonModel::parent(const QModelIndex& index) const
 
 int JsonModel::rowCount(const QModelIndex& parent) const
 {
-    JsonItem* parentItem;
+    const JsonItem* parentItem;
     if (parent.column() > 0)
         return 0;
 
     if (!parent.isValid())
-        parentItem = (JsonModel*)this;
+        parentItem = this;
     else
         parentItem = static_cast<JsonItem*>(parent.internalPointer());
 
