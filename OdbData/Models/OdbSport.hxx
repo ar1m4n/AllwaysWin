@@ -3,43 +3,52 @@
 #include <QtCore/QString>
 #include <odb/core.hxx>
 #include <odb/qt/lazy-ptr.hxx>
-#include <QtCore/QList>
+#include <odb/qt/list.hxx>
+#include <odb/callback.hxx>
 
 class OdbBookie;
+class OdbMarket;
 
 #pragma db object
 class OdbSport
 {
 public:
-    OdbSport(const QString &id);
+    OdbSport(const QString &idInBookie, const QString &name);
 
-    const QString &Id() const;
+    unsigned long Id() const;
+
+    const QString &IdInBookie() const;
 
     const QString &Name() const;
 
-    const QList<QLazyWeakPointer<OdbBookie>> &Bookies() const;
+    const QLazySharedPointer<OdbBookie> &Booky() const;
+
+    const QOdbList<QLazyWeakPointer<OdbMarket>> &Markets() const;
 
 private:
     friend class odb::access;
 
     OdbSport () = default;
 
-    #pragma db id
-    QString m_id;
+    #pragma db id auto
+    unsigned long m_id;
+
+    #pragma db not_null
+    QString m_idInBookie;
 
     #pragma db not_null
     QString m_name;
 
-    #pragma db value_not_null inverse(m_sports)
-    QList<QLazyWeakPointer<OdbBookie>> m_bookies;
+    #pragma db not_null
+    QLazySharedPointer<OdbBookie> m_booky;
 
-    #pragma db value_not_null
-    QList<QLazySharedPointer<OdbSport>> m_sameAs;
+    #pragma db value_not_null inverse(m_sport)
+    QOdbList<QLazyWeakPointer<OdbMarket>> m_markets;
 
-    #pragma db value_not_null inverse(m_sameAs)
-    QList<QLazyWeakPointer<OdbSport>> m_asSame;
+    #pragma db index("id_idInBookie") unique members(m_id, m_idInBookie)
 };
 
 #ifdef ODB_COMPILER
 #include "OdbBookie.hxx"
+#include "OdbMarket.hxx"
 #endif
