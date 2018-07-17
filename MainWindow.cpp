@@ -35,7 +35,9 @@ void MainWindow::on_loginBtn_clicked()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     auto reply = restClient->post(request, payload);
     onRequestOk[reply] = [this, reply]() {
-        auto responseData = jsonModel->parse(reply->readAll());
+        QString data = reply->readAll();
+        data.replace("0E-8", "0.00");
+        auto responseData = jsonModel->parse(data.toLatin1());
         ui->treeView->expandAll();
         auto sessionTokenFound = responseData.find("session-token");
         if (sessionTokenFound != responseData.end())
@@ -92,6 +94,7 @@ void MainWindow::on_eventBtn_clicked()
                 else
                 {
                     QJsonObject maxObj;
+                    std::map<QString, std::map<QString, QJsonObject>> runnersByMarket;
                     for (auto it : eventsResponse)
                     {
                         auto eventsFound = it.toObject().value("events");
@@ -109,21 +112,37 @@ void MainWindow::on_eventBtn_clicked()
                                     {
                                         auto marketObj = market.toObject();
                                         auto marketType = marketObj.value("name").toString();
-                                        auto allRunners = maxObj.value(marketType).toObject();
+                                        auto marketRunners = runnersByMarket.emplace(marketType, std::map<QString, QJsonObject>());
+                                        auto allRunners = marketRunners.first->second.emplace(eventName, QJsonObject());
                                         auto newRunners = marketObj.value("runners").toArray();
                                         for(auto runner : newRunners)
                                         {
-                                            allRunners.insert(eventName, runner);
+                                            auto runnerObj = runner.toObject();
+                                            if(!runnerObj.value("prices").toArray().empty())
+                                            {
+                                                allRunners.first->second.insert(runnerObj.value("name").toString(), runnerObj);
+                                            }
                                         }
-                                        maxObj.insert(marketType, allRunners);
                                     }
                                 }
                             }
                         }
                     }
+
+                    for(auto val : runnersByMarket)
+                    {
+                        QJsonObject eventData;
+                        for(auto evVal : val.second)
+                        {
+                            eventData.insert(evVal.first, evVal.second);
+                        }
+
+                        maxObj.insert(val.first, eventData);
+                    }
+
                     jsonModel->parse(QJsonDocument(maxObj));
                     eventsResponse = QJsonObject();
-                    ui->treeView->expandAll();
+//                    ui->treeView->expand(ui->treeView->model()->index(0, 0));
                     currentOffset = 0;
                 }
             }

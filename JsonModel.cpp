@@ -128,7 +128,7 @@ int JsonModel::rowCount(const QModelIndex& parent) const
 
 QVariantMap JsonModel::parse(const QByteArray& text)
 {
-    QJsonParseError error;
+    QJsonParseError error = { 0, QJsonParseError::NoError };
     auto json = QJsonDocument::fromJson(text, &error);
     if(error.error == QJsonParseError::NoError)
     {
@@ -136,7 +136,7 @@ QVariantMap JsonModel::parse(const QByteArray& text)
     }
     else
     {
-        qDebug() << error.errorString();
+        qDebug() << error.errorString() << " at " << QString::fromLatin1(text.data(), error.offset + 1);
     }
 
     return QVariantMap();

@@ -17,17 +17,17 @@ const QString &OdbSport::IdInBookie() const
     return m_idInBookie;
 }
 
-const QString &OdbSport::Name() const
+QString &OdbSport::Name()
 {
     return m_name;
 }
 
-const QLazySharedPointer<OdbBookie> &OdbSport::Booky() const
+QLazySharedPointer<OdbBookie> &OdbSport::Booky()
 {
     return m_booky;
 }
 
-const QOdbList<QLazyWeakPointer<OdbMarket> > &OdbSport::Markets() const
+QOdbList<QLazyWeakPointer<OdbMarket> > &OdbSport::Markets()
 {
     return m_markets;
 }

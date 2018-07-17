@@ -32,14 +32,14 @@ SOURCES += main.cpp \
     JsonModel.cpp \
     OdbData/Models/OdbSport.cpp \
     OdbData/Models/OdbBookie.cpp \
-    OdbData/Models/OdbMarket.cpp
+    OdbData/Models/OdbMarket.cpp \
+    OdbData/Models/OdbRunner.cpp
 
 HEADERS += MainWindow.h \
     OdbData/OdbContext.h \
     JsonItem.h \
     JsonModel.h \
-    $$ODB_FILES \
-    OdbData/Models/OdbMarket.hxx
+    $$ODB_FILES
 
 FORMS += MainWindow.ui
 

@@ -3,17 +3,14 @@
 #include <QtCore/QString>
 #include <odb/core.hxx>
 #include <odb/qt/lazy-ptr.hxx>
-#include <odb/qt/list.hxx>
-#include <odb/callback.hxx>
 
-class OdbBookie;
 class OdbMarket;
 
 #pragma db object
-class OdbSport
+class OdbRunner
 {
 public:
-    OdbSport(const QString &idInBookie, const QString &name);
+    OdbRunner(const QString &idInBookie, const QString &name);
 
     unsigned long Id() const;
 
@@ -21,14 +18,11 @@ public:
 
     QString &Name();
 
-    QLazySharedPointer<OdbBookie> &Booky();
-
-    QOdbList<QLazyWeakPointer<OdbMarket>> &Markets();
+    QLazySharedPointer<OdbMarket> &Market();
 
 private:
     friend class odb::access;
-
-    OdbSport () = default;
+    OdbRunner() = default;
 
     #pragma db id auto
     unsigned long m_id;
@@ -40,13 +34,9 @@ private:
     QString m_name;
 
     #pragma db not_null
-    QLazySharedPointer<OdbBookie> m_booky;
-
-    #pragma db value_not_null inverse(m_sport)
-    QOdbList<QLazyWeakPointer<OdbMarket>> m_markets;
+    QLazySharedPointer<OdbMarket> m_market;
 };
 
 #ifdef ODB_COMPILER
-#include "OdbBookie.hxx"
 #include "OdbMarket.hxx"
 #endif

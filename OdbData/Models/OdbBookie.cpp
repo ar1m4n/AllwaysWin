@@ -11,12 +11,12 @@ unsigned long OdbBookie::Id() const
     return m_id;
 }
 
-const QOdbList<QLazyWeakPointer<OdbSport> > &OdbBookie::Sports() const
-{
-    return m_sports;
-}
-
-const QString &OdbBookie::Name() const
+QString &OdbBookie::Name()
 {
     return m_name;
+}
+
+QOdbList<QLazyWeakPointer<OdbSport> > &OdbBookie::Sports()
+{
+    return m_sports;
 }

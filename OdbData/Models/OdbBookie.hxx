@@ -15,9 +15,9 @@ public:
 
     unsigned long Id() const;
 
-    const QOdbList<QLazyWeakPointer<OdbSport> > &Sports() const;
+    QString &Name();
 
-    const QString &Name() const;
+    QOdbList<QLazyWeakPointer<OdbSport> > &Sports();
 
 private:
     friend class odb::access;
