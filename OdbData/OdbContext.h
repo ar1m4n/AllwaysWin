@@ -1,10 +1,30 @@
-#ifndef ODBCONTEXT_H
-#define ODBCONTEXT_H
+#pragma once
+
+#include <QtCore/QScopedPointer>
+#include <functional>
+#include <unordered_map>
+#include <QtCore/QList>
+
+namespace odb
+{
+    namespace sqlite
+    {
+        class database;
+    }
+}
 
 class OdbContext
 {
 public:
-    OdbContext();
-};
+    static OdbContext &GetInstance();
 
-#endif // ODBCONTEXT_H
+private:
+    friend class BaseEntity;
+    static OdbContext * s_instance;
+
+    OdbContext();
+
+    std::unordered_map<const void*, QList<std::function<void()>>> m_changeTracker;
+
+    QScopedPointer<odb::sqlite::database> db;
+};
