@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QtCore/QScopedPointer>
-#include <functional>
-#include <unordered_map>
-#include <QtCore/QList>
+#include <QScopedPointer>
+#include "OdbEntitySet.hpp"
+#include "OdbBookie-odb.hxx"
+#include "QList"
 
 namespace odb
 {
@@ -16,15 +16,14 @@ namespace odb
 class OdbContext
 {
 public:
-    static OdbContext &GetInstance();
-
-private:
-    friend class BaseEntity;
-    static OdbContext * s_instance;
-
     OdbContext();
 
-    std::unordered_map<const void*, QList<std::function<void()>>> m_changeTracker;
+    void SaveChanges();
+
+private:
+    OdbEntitySet<OdbBookie> m_bookies;
+
+    QList<OdbEntitySet<OdbBookie> *> m_allSets;
 
     QScopedPointer<odb::sqlite::database> db;
 };

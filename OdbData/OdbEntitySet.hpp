@@ -1,6 +1,7 @@
 #include "OdbEntitySet.h"
 
-OdbEntitySet::OdbEntitySet()
+template<class Entity>
+OdbEntitySet<Entity>::OdbEntitySet()
 {
 
 }

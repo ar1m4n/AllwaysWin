@@ -50,8 +50,8 @@ HEADERS += MainWindow.h \
     OdbData/Models/OdbPrice.hxx \
     OdbData/OdbEntitySet.h \
     OdbData/OdbEntitySet.hpp \
-    OdbData/BaseEntity.h \
-    OdbData/BaseEntity.hpp
+    OdbData/OdbLazyPointer.h \
+    OdbData/OdbLazyPointer.hpp
 
 FORMS += MainWindow.ui
 
@@ -59,7 +59,7 @@ FORMS += MainWindow.ui
 ODB_FLAGS = --database sqlite --profile qt --generate-schema --generate-query --generate-session --std c++14
 
 # Suppress unknown pragmas GCC warnings.
-QMAKE_CXXFLAGS_WARN_ON = $$QMAKE_CXXFLAGS_WARN_ON -Wno-unknown-pragmas
+QMAKE_CXXFLAGS_WARN_ON = $$QMAKE_CXXFLAGS_WARN_ON -Wno-unknown-pragmas -Wno-implicit-fallthrough
 
 # Link to the ODB runtime libraries.
 LIBS += -lodb-sqlite

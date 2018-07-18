@@ -1,10 +1,15 @@
-#ifndef ODBENTITYSET_H
-#define ODBENTITYSET_H
+#pragma once
 
+#include "OdbLazyPointer.hpp"
+#include <QHash>
+
+template<class Entity>
 class OdbEntitySet
 {
+private:
+    friend class OdbContext;
+    QHash<const void*, OdbLazyPointer<Entity>> m_internalSet;
+
 public:
     OdbEntitySet();
 };
-
-#endif // ODBENTITYSET_H
