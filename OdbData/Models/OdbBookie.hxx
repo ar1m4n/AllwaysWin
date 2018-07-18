@@ -17,7 +17,7 @@ public:
 
     QString &Name();
 
-    QOdbList<QLazyWeakPointer<OdbSport> > &Sports();
+    QOdbList<QLazySharedPointer<OdbSport> > &Sports();
 
 private:
     friend class odb::access;
@@ -30,8 +30,8 @@ private:
     #pragma db not_null
     QString m_name;
 
-    #pragma db value_not_null inverse(m_booky)
-    QOdbList<QLazyWeakPointer<OdbSport>> m_sports;
+    #pragma db value_not_null
+    QOdbList<QLazySharedPointer<OdbSport>> m_sports;
 };
 
 #ifdef ODB_COMPILER

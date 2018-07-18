@@ -21,12 +21,7 @@ QString &OdbMarket::Name()
     return m_name;
 }
 
-QLazySharedPointer<OdbSport> &OdbMarket::Sport()
+QOdbList<QLazyWeakPointer<OdbMarketEvents> > &OdbMarket::MarketEvents()
 {
-    return m_sport;
-}
-
-QOdbList<QLazyWeakPointer<OdbRunner> > &OdbMarket::Runners()
-{
-    return m_runners;
+    return m_marketEvents;
 }

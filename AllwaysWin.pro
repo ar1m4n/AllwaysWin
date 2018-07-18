@@ -33,13 +33,21 @@ SOURCES += main.cpp \
     OdbData/Models/OdbSport.cpp \
     OdbData/Models/OdbBookie.cpp \
     OdbData/Models/OdbMarket.cpp \
-    OdbData/Models/OdbRunner.cpp
+    OdbData/Models/OdbRunner.cpp \
+    OdbData/Models/OdbEvent.cpp \
+    OdbData/Models/OdbEventParticipant.cpp \
+    OdbData/Models/OdbMarketEvents.cpp \
+    OdbData/Models/OdbPrice.cpp
 
 HEADERS += MainWindow.h \
     OdbData/OdbContext.h \
     JsonItem.h \
     JsonModel.h \
-    $$ODB_FILES
+    $$ODB_FILES \
+    OdbData/Models/OdbEvent.hxx \
+    OdbData/Models/OdbEventParticipant.hxx \
+    OdbData/Models/OdbMarketEvents.hxx \
+    OdbData/Models/OdbPrice.hxx
 
 FORMS += MainWindow.ui
 

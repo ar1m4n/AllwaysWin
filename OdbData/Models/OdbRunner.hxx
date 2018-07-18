@@ -3,8 +3,14 @@
 #include <QtCore/QString>
 #include <odb/core.hxx>
 #include <odb/qt/lazy-ptr.hxx>
+#include <odb/qt/list.hxx>
 
-class OdbMarket;
+class OdbMarketEvents;
+class OdbPrice;
+
+#ifdef ODB_COMPILER
+#include "OdbMarketEvents.hxx"
+#endif
 
 #pragma db object
 class OdbRunner
@@ -18,7 +24,9 @@ public:
 
     QString &Name();
 
-    QLazySharedPointer<OdbMarket> &Market();
+    QLazyWeakPointer<OdbMarketEvents> &MarketEvent();
+
+    QOdbList<QLazySharedPointer<OdbPrice>> &Prices();
 
 private:
     friend class odb::access;
@@ -33,10 +41,12 @@ private:
     #pragma db not_null
     QString m_name;
 
-    #pragma db not_null
-    QLazySharedPointer<OdbMarket> m_market;
+    #pragma db not_null inverse (m_runners)
+    QLazyWeakPointer<OdbMarketEvents> m_marketEvent;
+
+    QOdbList<QLazySharedPointer<OdbPrice>> m_prices;
 };
 
 #ifdef ODB_COMPILER
-#include "OdbMarket.hxx"
+#include "OdbPrice.hxx"
 #endif

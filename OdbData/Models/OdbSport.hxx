@@ -7,7 +7,7 @@
 #include <odb/callback.hxx>
 
 class OdbBookie;
-class OdbMarket;
+class OdbEvent;
 
 #pragma db object
 class OdbSport
@@ -21,9 +21,9 @@ public:
 
     QString &Name();
 
-    QLazySharedPointer<OdbBookie> &Booky();
+    QLazyWeakPointer<OdbBookie> &Booky();
 
-    QOdbList<QLazyWeakPointer<OdbMarket>> &Markets();
+    QOdbList<QLazySharedPointer<OdbEvent>> &Events();
 
 private:
     friend class odb::access;
@@ -39,14 +39,13 @@ private:
     #pragma db not_null
     QString m_name;
 
-    #pragma db not_null
-    QLazySharedPointer<OdbBookie> m_booky;
+    #pragma db not_null inverse(m_sports)
+    QLazyWeakPointer<OdbBookie> m_booky;
 
-    #pragma db value_not_null inverse(m_sport)
-    QOdbList<QLazyWeakPointer<OdbMarket>> m_markets;
+    QOdbList<QLazySharedPointer<OdbEvent>> m_events;
 };
 
 #ifdef ODB_COMPILER
 #include "OdbBookie.hxx"
-#include "OdbMarket.hxx"
+#include "OdbEvent.hxx"
 #endif

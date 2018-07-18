@@ -1,5 +1,4 @@
 #include "OdbSport.hxx"
-#include "OdbBookie.hxx"
 
 OdbSport::OdbSport(const QString &idInBookie, const QString &name)
     : m_idInBookie(idInBookie), m_name(name)
@@ -22,12 +21,12 @@ QString &OdbSport::Name()
     return m_name;
 }
 
-QLazySharedPointer<OdbBookie> &OdbSport::Booky()
+QLazyWeakPointer<OdbBookie> &OdbSport::Booky()
 {
     return m_booky;
 }
 
-QOdbList<QLazyWeakPointer<OdbMarket> > &OdbSport::Markets()
+QOdbList<QLazySharedPointer<OdbEvent> > &OdbSport::Events()
 {
-    return m_markets;
+    return m_events;
 }

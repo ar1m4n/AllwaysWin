@@ -16,7 +16,7 @@ QString &OdbBookie::Name()
     return m_name;
 }
 
-QOdbList<QLazyWeakPointer<OdbSport> > &OdbBookie::Sports()
+QOdbList<QLazySharedPointer<OdbSport> > &OdbBookie::Sports()
 {
     return m_sports;
 }

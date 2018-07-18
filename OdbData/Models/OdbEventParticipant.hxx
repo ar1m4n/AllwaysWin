@@ -5,17 +5,13 @@
 #include <odb/qt/lazy-ptr.hxx>
 #include <odb/qt/list.hxx>
 
-class OdbMarketEvents;
-
-#ifdef ODB_COMPILER
-#include "OdbMarketEvents.hxx"
-#endif
+class OdbEvent;
 
 #pragma db object
-class OdbMarket
+class OdbEventParticipant
 {
 public:
-    OdbMarket(const QString & idInBookie, const QString &name);
+    OdbEventParticipant(const QString &idInBookie, const QString &name);
 
     unsigned long Id() const;
 
@@ -23,11 +19,12 @@ public:
 
     QString &Name();
 
-    QOdbList<QLazyWeakPointer<OdbMarketEvents>> &MarketEvents();
+    QOdbList<QLazyWeakPointer<OdbEvent>> &Events();
 
 private:
     friend class odb::access;
-    OdbMarket() = default;
+
+    OdbEventParticipant() = default;
 
     #pragma db id auto
     unsigned long m_id;
@@ -38,6 +35,10 @@ private:
     #pragma db not_null
     QString m_name;
 
-    #pragma db inverse(m_market)
-    QOdbList<QLazyWeakPointer<OdbMarketEvents>> m_marketEvents;
+    #pragma db value_not_null inverse(m_participants)
+    QOdbList<QLazyWeakPointer<OdbEvent>> m_events;
 };
+
+#ifdef ODB_COMPILER
+#include "OdbEvent.hxx"
+#endif
