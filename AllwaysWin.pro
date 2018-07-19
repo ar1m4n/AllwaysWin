@@ -48,10 +48,7 @@ HEADERS += MainWindow.h \
     OdbData/Models/OdbEventParticipant.hxx \
     OdbData/Models/OdbMarketEvents.hxx \
     OdbData/Models/OdbPrice.hxx \
-    OdbData/OdbEntitySet.h \
-    OdbData/OdbEntitySet.hpp \
-    OdbData/OdbLazyPointer.h \
-    OdbData/OdbLazyPointer.hpp
+    OdbData/OdbContext.hpp
 
 FORMS += MainWindow.ui
 
