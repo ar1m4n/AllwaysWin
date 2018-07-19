@@ -77,7 +77,7 @@ for(dir, ODB_FILES) {
     QMAKE_CXXFLAGS *= -I$$dirname(ODB_PWD_FILE)
 }
 
-GEN_FLAGS = $(CXX) -c $(CXXFLAGS) $(INCPATH) $$ODB_PWD_FILE_DIRS
+#GEN_FLAGS = $(CXX) -c $(CXXFLAGS) $(INCPATH) $$ODB_PWD_FILE_DIRS
 
 defineReplace(generateClean) {
     return($${1}-odb.hxx $${1}-odb.cxx $${1}-odb.ixx $${1}.sql)
