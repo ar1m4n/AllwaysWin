@@ -37,7 +37,10 @@ SOURCES += main.cpp \
     OdbData/Models/OdbEvent.cpp \
     OdbData/Models/OdbEventParticipant.cpp \
     OdbData/Models/OdbMarketEvents.cpp \
-    OdbData/Models/OdbPrice.cpp
+    OdbData/Models/OdbPrice.cpp \
+    Widgets/BookieWidget.cpp \
+    Communicators/MatchbookCommunicator.cpp \
+    Communicators/Communicator.cpp
 
 HEADERS += MainWindow.h \
     OdbData/OdbContext.h \
@@ -48,9 +51,12 @@ HEADERS += MainWindow.h \
     OdbData/Models/OdbEventParticipant.hxx \
     OdbData/Models/OdbMarketEvents.hxx \
     OdbData/Models/OdbPrice.hxx \
-    OdbData/OdbContext.hpp
+    Widgets/BookieWidget.h \
+    Communicators/MatchbookCommunicator.h \
+    Communicators/Communicator.h
 
-FORMS += MainWindow.ui
+FORMS += MainWindow.ui \
+    Widgets/BookieWidget.ui
 
 # ODB compiler flags.
 ODB_FLAGS = --database sqlite --profile qt --generate-schema --generate-query --generate-session --std c++14
