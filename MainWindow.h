@@ -17,8 +17,7 @@ public:
     ~MainWindow();
 
 private slots:
-
-    void on_actionAdd_New_Bookie_triggered();
+    void on_actionMatch_Book_toggled(bool checked);
 
 private:
     Ui::MainWindow* ui;

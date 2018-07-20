@@ -12,7 +12,7 @@ class MatchbookCommunicator : public Communicator
 {
     Q_OBJECT
 public:
-    explicit MatchbookCommunicator(QObject *parent);
+    explicit MatchbookCommunicator();
 
 Q_SIGNALS:
 

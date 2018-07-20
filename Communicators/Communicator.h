@@ -7,13 +7,12 @@
 
 class QNetworkAccessManager;
 class QNetworkReply;
-class BookieWidget;
 
 class Communicator : public QObject
 {
     Q_OBJECT
 public:
-    explicit Communicator(const QString &protocol, const QString & url, QObject *parent);
+    explicit Communicator(const QString &protocol, const QString & url);
 
 protected:
     QUrl m_apiUrl;
@@ -25,6 +24,8 @@ Q_SIGNALS:
 public slots:
     virtual void OnLoginButtonClicked(const QString &userName, const QString &password) = 0;
     virtual void OnRequestComplete(QNetworkReply*) = 0;
+
+    QString ApiPath() const;
 };
 
 #endif // COMMUNICATOR_H

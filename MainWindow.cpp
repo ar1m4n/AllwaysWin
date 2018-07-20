@@ -14,7 +14,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_actionAdd_New_Bookie_triggered()
+void MainWindow::on_actionMatch_Book_toggled(bool checked)
 {
-    ui->centralWidget->layout()->addWidget(new BookieWidget(this, new MatchbookCommunicator(this)));
+    if(checked)
+    {
+        auto bookieWidget = new BookieWidget(this, new MatchbookCommunicator());
+        ui->centralWidget->layout()->addWidget(bookieWidget);
+    }
+    else
+    {
+        for(int i = 0; i < ui->centralWidget->layout()->count(); ++i)
+        {
+            auto bookieWidget = ui->centralWidget->layout()->itemAt(i)->widget();
+            auto commuicator = std::find_if(bookieWidget->children().begin(), bookieWidget->children().end(),
+                [](const QObject* child) {
+                    return dynamic_cast<const MatchbookCommunicator*>(child);
+                }
+            );
+
+            if(commuicator != bookieWidget->children().end())
+            {
+                ui->centralWidget->layout()->removeWidget(bookieWidget);
+                bookieWidget->deleteLater();
+                return;
+            }
+        }
+    }
 }

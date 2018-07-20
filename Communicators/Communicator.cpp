@@ -1,10 +1,9 @@
 #include "Communicator.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include "Widgets/BookieWidget.h"
 
-Communicator::Communicator(const QString &protocol, const QString &url, QObject *parent)
-    : QObject(parent)
+Communicator::Communicator(const QString &protocol, const QString &url)
+    : QObject(nullptr)
 {
     m_apiUrl.setScheme(protocol);
     m_apiUrl.setHost(url);
@@ -12,4 +11,9 @@ Communicator::Communicator(const QString &protocol, const QString &url, QObject 
 
     connect(m_restClient, &QNetworkAccessManager::finished,
             this, &Communicator::OnRequestComplete);
+}
+
+QString Communicator::ApiPath() const
+{
+    return m_apiUrl.host();
 }

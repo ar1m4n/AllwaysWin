@@ -8,8 +8,8 @@
 #include <QTimer>
 #include <QDebug>
 
-MatchbookCommunicator::MatchbookCommunicator(QObject *parent)
-    : Communicator("https", "api.matchbook.com", parent)
+MatchbookCommunicator::MatchbookCommunicator()
+    : Communicator("https", "api.matchbook.com")
 {
     connect(this, &MatchbookCommunicator::DataReady, [this](){
         QTimer::singleShot(10 * 1000, this, &MatchbookCommunicator::SheduleGetData);
@@ -90,54 +90,7 @@ void MatchbookCommunicator::SheduleGetData()
                 }
                 else
                 {
-                    QJsonObject maxObj;
-                    std::map<QString, std::map<QString, QJsonObject>> runnersByMarket;
-                    for (auto it : m_eventsResponse)
-                    {
-                        auto eventsFound = it.toObject().value("events");
-                        if (eventsFound.isArray())
-                        {
-                            auto eventsArray = eventsFound.toArray();
-                            for (auto event : eventsArray)
-                            {
-                                auto eventName = event.toObject().value("name").toString();
-                                auto foundMarkets = event.toObject().value("markets");
-                                if (foundMarkets.isArray())
-                                {
-                                    auto marketsArray = foundMarkets.toArray();
-                                    for(auto market : marketsArray)
-                                    {
-                                        auto marketObj = market.toObject();
-                                        auto marketType = marketObj.value("name").toString();
-                                        auto marketRunners = runnersByMarket.emplace(marketType, std::map<QString, QJsonObject>());
-                                        auto allRunners = marketRunners.first->second.emplace(eventName, QJsonObject());
-                                        auto newRunners = marketObj.value("runners").toArray();
-                                        for(auto runner : newRunners)
-                                        {
-                                            auto runnerObj = runner.toObject();
-                                            if(!runnerObj.value("prices").toArray().empty())
-                                            {
-                                                allRunners.first->second.insert(runnerObj.value("name").toString(), runnerObj);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    for(auto val : runnersByMarket)
-                    {
-                        QJsonObject eventData;
-                        for(auto evVal : val.second)
-                        {
-                            eventData.insert(evVal.first, evVal.second);
-                        }
-
-                        maxObj.insert(val.first, eventData);
-                    }
-
-                    emit DataReady(maxObj);
+                    emit DataReady(m_eventsResponse);
                     m_eventsResponse = QJsonObject();
                     m_currentOffset = 0;
                 }

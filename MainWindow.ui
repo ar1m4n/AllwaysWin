@@ -29,7 +29,13 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionAdd_New_Bookie"/>
+    <widget class="QMenu" name="menuAdd_New_Bookie">
+     <property name="title">
+      <string>Add New Bookie</string>
+     </property>
+     <addaction name="actionMatch_Book"/>
+    </widget>
+    <addaction name="menuAdd_New_Bookie"/>
    </widget>
    <addaction name="menuEdit"/>
   </widget>
@@ -42,9 +48,12 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionAdd_New_Bookie">
+  <action name="actionMatch_Book">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Add New Bookie</string>
+    <string>Match Book </string>
    </property>
   </action>
  </widget>
