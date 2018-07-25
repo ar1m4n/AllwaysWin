@@ -17,19 +17,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionMatch_Book_toggled(bool checked)
 {
-    if(checked)
+    AddOrDeleteBookieWidget(sender(), new MatchbookCommunicator(), checked);
+}
+
+void MainWindow::OnCommunicatorLogin(bool success)
+{
+    if(success)
+        ui->collectDataBtn->setEnabled(true);
+}
+
+void MainWindow::AddOrDeleteBookieWidget(QObject *sender, Communicator *communicator, bool togled)
+{
+    if(togled)
     {
-        auto bookieWidget = new BookieWidget(ui->BookiesBox, new MatchbookCommunicator());
-        connect(ui->collectDataBtn, &QPushButton::clicked, bookieWidget, &BookieWidget::OnCollectDataButtonClicked);
-        ui->BookiesBox->layout()->addWidget(bookieWidget);
-        m_freeBookieCallbacks.emplace(sender(), [bookieWidget, this](){
-            ui->BookiesBox->layout()->removeWidget(bookieWidget);
-            disconnect(ui->collectDataBtn, &QPushButton::clicked, bookieWidget, &BookieWidget::OnCollectDataButtonClicked);
-            bookieWidget->deleteLater();
+        connect(communicator, &Communicator::LoginComplete, this, &MainWindow::OnCommunicatorLogin);
+        connect(ui->collectDataBtn, &QPushButton::clicked, communicator, &Communicator::OnCollectDataButtonClicked);
+
+        auto bookieWidget = new BookieWidget(this, communicator);
+
+        connect(bookieWidget, &BookieWidget::destroyed, [this](){
+            if(!m_activeBookies.size())
+                ui->collectDataBtn->setEnabled(false);
         });
+
+        ui->BookiesBox->layout()->addWidget(bookieWidget);
+        m_activeBookies.emplace(sender, bookieWidget);
     }
     else
     {
-        m_freeBookieCallbacks[sender()]();
+        auto deleter = m_activeBookies.find(sender);
+        if(deleter != m_activeBookies.end())
+        {
+            ui->BookiesBox->layout()->removeWidget(deleter->second);
+            m_activeBookies.erase(deleter);
+            deleter->second->deleteLater();
+        }
     }
 }

@@ -88,6 +88,10 @@ void MatchbookCommunicator::OnRequestComplete(QNetworkReply * reply)
     else
     {
         qDebug() << reply->errorString();
+        if(reply->error() == QNetworkReply::InternalServerError)
+        {
+            OnLoginButtonClicked(m_userName, m_password);
+        }
     }
 
     reply->deleteLater();

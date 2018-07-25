@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QList>
-#include <functional>
 #include <QSharedPointer>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,6 +11,9 @@ namespace Ui
 {
 class MainWindow;
 }
+
+class Communicator;
+class BookieWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -23,10 +25,12 @@ public:
 
 private slots:
     void on_actionMatch_Book_toggled(bool checked);
+    void OnCommunicatorLogin(bool success);
 
 private:
     Ui::MainWindow* ui;
-    std::unordered_map<QObject*, std::function<void()>> m_freeBookieCallbacks;
+    std::unordered_map<QObject*, BookieWidget *> m_activeBookies;
+    void AddOrDeleteBookieWidget(QObject *sender, Communicator *communicator, bool togled);
 };
 
 #endif // MAINWINDOW_H

@@ -17,8 +17,6 @@ BookieWidget::BookieWidget(QWidget *parent, Communicator *communicator) :
         ui->groupBox->setTitle(communicator->ApiPath());
         m_communicator->setParent(this);
         connect(this, &BookieWidget::Login, m_communicator, &Communicator::OnLoginButtonClicked);
-        connect(m_communicator, &Communicator::LoginComplete, this, &BookieWidget::OnLoginCompleted);
-        connect(this, &BookieWidget::CollectData, m_communicator, &Communicator::OnCollectDataButtonClicked);
         connect(m_communicator, &Communicator::DataReady, this, &BookieWidget::OnDataReady);
     }
 
@@ -41,23 +39,7 @@ void BookieWidget::OnLoginButtonClicked()
     }
 }
 
-void BookieWidget::OnCollectDataButtonClicked()
-{
-    if(m_loggedIn)
-    {
-        emit CollectData();
-    }
-}
-
 void BookieWidget::OnDataReady(QJsonObject object)
 {
-    if(!object.isEmpty())
-    {
-        m_jsonModel->parse(QJsonDocument(object));
-    }
-}
-
-void BookieWidget::OnLoginCompleted(bool success)
-{
-    m_loggedIn = success;
+    m_jsonModel->parse(QJsonDocument(object));
 }
