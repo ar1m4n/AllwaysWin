@@ -6,22 +6,65 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>691</width>
-    <height>532</height>
+    <width>718</width>
+    <height>683</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGroupBox" name="BookiesDataBox">
+      <property name="minimumSize">
+       <size>
+        <width>700</width>
+        <height>300</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Bookies Data</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="collectDataBtn">
+         <property name="text">
+          <string>Collect Data</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="BookiesBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Bookies</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>691</width>
+     <width>718</width>
      <height>20</height>
     </rect>
    </property>

@@ -18,6 +18,7 @@ Q_SIGNALS:
 
 public slots:
     void OnLoginButtonClicked(const QString &userName, const QString &password) override;
+    void OnCollectDataButtonClicked() override;
     void OnRequestComplete(QNetworkReply *reply) override;
 
 private:
@@ -25,9 +26,6 @@ private:
     std::function<void(QNetworkReply*)> m_onRequestOk = nullptr;
     int m_currentOffset = 0, m_perPage = 20;
     QJsonObject m_eventsResponse;
-
-    void SheduleLogin();
-    void SheduleGetData();
 };
 
 #endif // MATCHBOOKCOMMUNICATOR_H

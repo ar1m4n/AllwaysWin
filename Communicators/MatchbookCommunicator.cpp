@@ -11,35 +11,12 @@
 MatchbookCommunicator::MatchbookCommunicator()
     : Communicator("https", "api.matchbook.com")
 {
-    connect(this, &MatchbookCommunicator::DataReady, [this](){
-        QTimer::singleShot(10 * 1000, this, &MatchbookCommunicator::SheduleGetData);
-    });
 }
 
 void MatchbookCommunicator::OnLoginButtonClicked(const QString &userName, const QString &password)
 {
     m_userName = userName;
     m_password = password;
-    SheduleLogin();
-}
-
-void MatchbookCommunicator::OnRequestComplete(QNetworkReply * reply)
-{
-    if(reply->error() == QNetworkReply::NoError)
-    {
-        if(m_onRequestOk)
-            m_onRequestOk(reply);
-    }
-    else
-    {
-        qDebug() << reply->errorString();
-    }
-
-    reply->deleteLater();
-}
-
-void MatchbookCommunicator::SheduleLogin()
-{
     m_apiUrl.setPath("/bpapi/rest/security/session");
     QVariantMap feed;
     feed.insert("username", m_userName);
@@ -49,6 +26,7 @@ void MatchbookCommunicator::SheduleLogin()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     m_restClient->post(request, payload);
     m_onRequestOk = [this](QNetworkReply *reply) {
+        m_sessionToken.clear();
         QString data = reply->readAll();
         data.replace("0E-8", "0.00");
         QJsonObject object = QJsonDocument::fromJson(data.toLatin1()).object();
@@ -56,12 +34,13 @@ void MatchbookCommunicator::SheduleLogin()
         if (sessionTokenFound != object.end())
         {
             m_sessionToken = sessionTokenFound.value().toString();
-            SheduleGetData();
         }
+
+        emit LoginComplete(!m_sessionToken.isEmpty());
     };
 }
 
-void MatchbookCommunicator::SheduleGetData()
+void MatchbookCommunicator::OnCollectDataButtonClicked()
 {
     m_apiUrl.setPath("/edge/rest/events");
     QUrlQuery query;
@@ -86,7 +65,7 @@ void MatchbookCommunicator::SheduleGetData()
                 int total = totalFound.value().toInt();
                 if (m_currentOffset < total)
                 {
-                    SheduleGetData();
+                    OnCollectDataButtonClicked();
                 }
                 else
                 {
@@ -97,4 +76,19 @@ void MatchbookCommunicator::SheduleGetData()
             }
         }
     };
+}
+
+void MatchbookCommunicator::OnRequestComplete(QNetworkReply * reply)
+{
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        if(m_onRequestOk)
+            m_onRequestOk(reply);
+    }
+    else
+    {
+        qDebug() << reply->errorString();
+    }
+
+    reply->deleteLater();
 }

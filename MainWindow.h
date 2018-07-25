@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QList>
+#include <functional>
+#include <QSharedPointer>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace Ui
 {
@@ -21,6 +26,7 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
+    std::unordered_map<QObject*, std::function<void()>> m_freeBookieCallbacks;
 };
 
 #endif // MAINWINDOW_H

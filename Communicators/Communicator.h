@@ -20,9 +20,11 @@ protected:
 
 Q_SIGNALS:
     void DataReady(QJsonObject);
+    void LoginComplete(bool);
 
 public slots:
     virtual void OnLoginButtonClicked(const QString &userName, const QString &password) = 0;
+    virtual void OnCollectDataButtonClicked() = 0;
     virtual void OnRequestComplete(QNetworkReply*) = 0;
 
     QString ApiPath() const;
