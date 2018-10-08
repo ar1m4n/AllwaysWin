@@ -1,4 +1,4 @@
-#include "OdbPrice.hxx"
+#include "OdbPrice.txx"
 
 OdbPrice::OdbPrice(double odds, double availableAmount, OdbPriceType priceType)
     :m_priceType(priceType), m_odds(odds), m_availableAmount(availableAmount)
@@ -29,7 +29,7 @@ double OdbPrice::AvailableAmount() const
     return m_availableAmount;
 }
 
-QLazyWeakPointer<OdbRunner> &OdbPrice::Runner()
+QLazySharedPointer<OdbRunner> &OdbPrice::Runner()
 {
     return m_runner;
 }

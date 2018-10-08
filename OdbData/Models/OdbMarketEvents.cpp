@@ -1,6 +1,11 @@
-#include "OdbMarketEvents.hxx"
+#include "OdbMarketEvents.txx"
 #include "OdbEvent-odb.hxx"
 #include "OdbMarket-odb.hxx"
+
+OdbMarketEvents::OdbMarketEvents(QSharedPointer<OdbMarket> &market, QSharedPointer<OdbEvent> &event)
+    : m_market(market), m_event(event)
+{
+}
 
 bool OdbMarketEventsID::operator <(const OdbMarketEventsID &other) const
 {
@@ -23,6 +28,11 @@ QLazySharedPointer<OdbMarket> &OdbMarketEvents::Market()
 QLazySharedPointer<OdbEvent> &OdbMarketEvents::Event()
 {
     return m_event;
+}
+
+QOdbList<QLazyWeakPointer<OdbRunner>> &OdbMarketEvents::Runners()
+{
+    return m_runners;
 }
 
 void OdbMarketEvents::Init(odb::callback_event e, odb::database &)

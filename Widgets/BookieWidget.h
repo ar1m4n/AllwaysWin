@@ -2,7 +2,7 @@
 #define BOOKIEWIDGET_H
 
 #include <QWidget>
-#include <QJsonObject>
+#include <QJsonDocument>
 
 namespace Ui {
 class BookieWidget;
@@ -29,7 +29,7 @@ Q_SIGNALS:
 
 public slots:
     void OnLoginButtonClicked();
-    void OnDataReady(QJsonObject);
+    void OnDataReady(QJsonDocument);
 };
 
 #endif // BOOKIEWIDGET_H

@@ -2,7 +2,7 @@
 #include "ui_MainWindow.h"
 #include "Communicators/MatchbookCommunicator.h"
 #include "Widgets/BookieWidget.h"
-#include "OdbData/Models/OdbBookie.hxx"
+#include "OdbData/Models/OdbBookie.txx"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -35,11 +35,6 @@ void MainWindow::AddOrDeleteBookieWidget(QObject *sender, Communicator *communic
 
         auto bookieWidget = new BookieWidget(this, communicator);
 
-        connect(bookieWidget, &BookieWidget::destroyed, [this](){
-            if(!m_activeBookies.size())
-                ui->collectDataBtn->setEnabled(false);
-        });
-
         ui->BookiesBox->layout()->addWidget(bookieWidget);
         m_activeBookies.emplace(sender, bookieWidget);
     }
@@ -49,8 +44,10 @@ void MainWindow::AddOrDeleteBookieWidget(QObject *sender, Communicator *communic
         if(deleter != m_activeBookies.end())
         {
             ui->BookiesBox->layout()->removeWidget(deleter->second);
+            delete deleter->second;
             m_activeBookies.erase(deleter);
-            deleter->second->deleteLater();
+            if(m_activeBookies.empty())
+                ui->collectDataBtn->setEnabled(false);
         }
     }
 }

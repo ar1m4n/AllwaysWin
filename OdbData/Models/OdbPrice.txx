@@ -25,7 +25,7 @@ public:
 
     double AvailableAmount() const;
 
-    QLazyWeakPointer<OdbRunner> &Runner();
+    QLazySharedPointer<OdbRunner> &Runner();
 
 private:
     friend class odb::access;
@@ -43,10 +43,10 @@ private:
     #pragma db default(0)
     double m_availableAmount;
 
-    #pragma db not_null inverse(m_prices)
-    QLazyWeakPointer<OdbRunner> m_runner;
+    #pragma db not_null
+    QLazySharedPointer<OdbRunner> m_runner;
 };
 
 #ifdef ODB_COMPILER
-#include "OdbRunner.hxx"
+#include "OdbData/Models/OdbRunner.txx"
 #endif

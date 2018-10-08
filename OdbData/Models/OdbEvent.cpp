@@ -1,7 +1,7 @@
-#include "OdbEvent.hxx"
+#include "OdbEvent.txx"
 
-OdbEvent::OdbEvent(const QString &idInBookine, const QString &name)
-    : m_idInBookie(idInBookine), m_name(name)
+OdbEvent::OdbEvent(const QString &idInBookine, const QString &name, const QDateTime &date, const QString &place)
+    : OdbBookieEntity(idInBookine), m_name(name), m_date(date), m_place(place)
 {
 
 }
@@ -11,27 +11,32 @@ unsigned long OdbEvent::Id() const
     return m_id;
 }
 
-const QString &OdbEvent::IdInBookie() const
-{
-    return m_idInBookie;
-}
-
 QString &OdbEvent::Name()
 {
     return m_name;
 }
 
-QLazyWeakPointer<OdbSport> &OdbEvent::Sport()
+QDateTime &OdbEvent::Date()
+{
+    return m_date;
+}
+
+QString &OdbEvent::Place()
+{
+    return m_place;
+}
+
+QLazySharedPointer<OdbSport> &OdbEvent::Sport()
 {
     return m_sport;
 }
 
-QLazyWeakPointer<OdbMarketEvents> &OdbEvent::EventMarkets()
+std::set<QLazyWeakPointer<OdbMarket>> &OdbEvent::Markets()
 {
-    return m_eventMarkets;
+    return m_markets;
 }
 
-QOdbList<QLazySharedPointer<OdbEventParticipant> > &OdbEvent::Participants()
+std::set<QLazyWeakPointer<OdbEventParticipant> > &OdbEvent::Participants()
 {
     return m_participants;
 }

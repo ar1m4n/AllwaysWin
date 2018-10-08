@@ -1,7 +1,7 @@
-#include "OdbBookie-odb.hxx"
+#include "OdbBookie.txx"
 
-OdbBookie::OdbBookie(const QString &name)
-    : m_name(name)
+OdbBookie::OdbBookie(unsigned long id, const QString &name)
+    : m_id(id), m_name(name)
 {
 }
 
@@ -10,12 +10,12 @@ unsigned long OdbBookie::Id() const
     return m_id;
 }
 
-QString &OdbBookie::Name()
+const QString &OdbBookie::Name() const
 {
     return m_name;
 }
 
-QOdbList<QLazySharedPointer<OdbSport> > &OdbBookie::Sports()
+std::set<QLazyWeakPointer<OdbSport> > &OdbBookie::Sports()
 {
     return m_sports;
 }

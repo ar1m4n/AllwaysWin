@@ -1,7 +1,7 @@
-#include "OdbRunner.hxx"
+#include "OdbRunner.txx"
 
 OdbRunner::OdbRunner(const QString &idInBookie, const QString &name)
-    :m_idInBookie(idInBookie), m_name(name)
+    :OdbBookieEntity(idInBookie), m_name(name)
 {
 
 }
@@ -11,22 +11,17 @@ unsigned long OdbRunner::Id() const
     return m_id;
 }
 
-const QString &OdbRunner::IdInBookie() const
-{
-    return m_idInBookie;
-}
-
 QString &OdbRunner::Name()
 {
     return m_name;
 }
 
-QLazyWeakPointer<OdbMarketEvents> &OdbRunner::MarketEvent()
+QLazySharedPointer<OdbMarket> &OdbRunner::Market()
 {
-    return m_marketEvent;
+    return m_market;
 }
 
-QOdbList<QLazySharedPointer<OdbPrice>> &OdbRunner::Prices()
+QOdbList<QLazyWeakPointer<OdbPrice> > &OdbRunner::Prices()
 {
     return m_prices;
 }

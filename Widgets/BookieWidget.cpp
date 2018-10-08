@@ -39,7 +39,7 @@ void BookieWidget::OnLoginButtonClicked()
     }
 }
 
-void BookieWidget::OnDataReady(QJsonObject object)
+void BookieWidget::OnDataReady(QJsonDocument object)
 {
-    m_jsonModel->parse(QJsonDocument(object));
+    m_jsonModel->parse(object);
 }
