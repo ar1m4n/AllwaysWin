@@ -27,6 +27,8 @@ private slots:
     void on_actionMatch_Book_toggled(bool checked);
     void OnCommunicatorLogin(bool success);
 
+    void on_actionPinnacle_toggled(bool arg1);
+
 private:
     Ui::MainWindow* ui;
     std::unordered_map<QObject*, BookieWidget *> m_activeBookies;

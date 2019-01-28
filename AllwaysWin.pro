@@ -41,7 +41,8 @@ SOURCES += main.cpp \
     Widgets/BookieWidget.cpp \
     Communicators/MatchbookCommunicator.cpp \
     Communicators/Communicator.cpp \
-    OdbData/Models/OdbBookieEntity.cpp
+    OdbData/Models/OdbBookieEntity.cpp \
+    Communicators/PinnacleCommunicator.cpp
 
 HEADERS += MainWindow.h \
     OdbData/OdbContext.h \
@@ -50,7 +51,8 @@ HEADERS += MainWindow.h \
     $$ODB_FILES \
     Widgets/BookieWidget.h \
     Communicators/MatchbookCommunicator.h \
-    Communicators/Communicator.h
+    Communicators/Communicator.h \
+    Communicators/PinnacleCommunicator.h
 
 FORMS += MainWindow.ui \
     Widgets/BookieWidget.ui

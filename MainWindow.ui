@@ -72,7 +72,7 @@
      <x>0</x>
      <y>0</y>
      <width>718</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEdit">
@@ -84,6 +84,7 @@
       <string>Add New Bookie</string>
      </property>
      <addaction name="actionMatch_Book"/>
+     <addaction name="actionPinnacle"/>
     </widget>
     <addaction name="menuAdd_New_Bookie"/>
    </widget>
@@ -104,6 +105,14 @@
    </property>
    <property name="text">
     <string>Match Book </string>
+   </property>
+  </action>
+  <action name="actionPinnacle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Pinnacle</string>
    </property>
   </action>
  </widget>

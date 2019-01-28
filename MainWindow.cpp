@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "Communicators/MatchbookCommunicator.h"
+#include "Communicators/PinnacleCommunicator.h"
 #include "Widgets/BookieWidget.h"
 #include "OdbData/Models/OdbBookie.txx"
 
@@ -18,6 +19,11 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionMatch_Book_toggled(bool checked)
 {
     AddOrDeleteBookieWidget(sender(), new MatchbookCommunicator(), checked);
+}
+
+void MainWindow::on_actionPinnacle_toggled(bool checked)
+{
+    AddOrDeleteBookieWidget(sender(), new PinnacleCommunicator(), checked);
 }
 
 void MainWindow::OnCommunicatorLogin(bool success)

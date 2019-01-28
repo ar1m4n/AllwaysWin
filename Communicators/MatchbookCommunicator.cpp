@@ -90,7 +90,7 @@ void MatchbookCommunicator::OnCollectDataButtonClicked()
                 else
                 {
                     emit DataReady(QJsonDocument(QJsonObject({{"events", m_eventsResponse}})));
-                    ParseBookie();
+//                    ParseBookie();
                     m_eventsResponse = QJsonArray();
                     m_currentOffset = 0;
                 }
